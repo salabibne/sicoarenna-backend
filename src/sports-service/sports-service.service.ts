@@ -23,15 +23,19 @@ export class SportsService {
     }
     const createdRecord = new this.sportsModel(createSportsServiceDto);
     return await createdRecord.save();
-
   }
 
   async findAll() {
     return await this.sportsModel.find().exec();
   }
 
+  // Find the Specific Sports Records
+  async findBySports(sport: string) {
+    return await this.sportsModel.find({ inputValue: sport }).exec();
+  }
+
   findOne(id: number) {
-    return `This action returns a #${id} sportsService`;
+    return `This action returns a #${id} sportsServiceeam1234`;
   }
 
   update(id: number, updateSportsServiceDto: UpdateSportsServiceDto) {

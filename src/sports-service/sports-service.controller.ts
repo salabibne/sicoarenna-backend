@@ -17,9 +17,15 @@ export class SportsServiceController {
     return this.sportsService.findAll();
   }
 
-  @Get(':id')
+  @Get('id1/:id')
   findOne(@Param('id') id: string) {
     return this.sportsService.findOne(+id);
+  }
+
+  // get the  sports service by name
+  @Get(':sport')
+  findBySports(@Param('sport') sport: string) {
+    return this.sportsService.findBySports(sport);
   }
 
   @Patch(':id')

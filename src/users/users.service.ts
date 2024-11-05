@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './schemas/users.schema';
@@ -26,10 +26,23 @@ export class UsersService {
     return await this.userModel.find().exec();
   }
 
-  async findOne(id: string): Promise<User> {
-    const user = await this.userModel.findById(id).exec();
-    if (!user) {
-      throw new Error('User not found');
+  // async findOne(id: string): Promise<User> {
+  //   const user = await this.userModel.findById(id).exec();
+  //   if (!user) {
+  //     throw new Error('User not found');
+  //   }
+  //   return user;
+  // }
+  async findPersonByEmail(email: string) {
+    const user = await this.userModel.find({ email }).exec();
+    if (user.length === 0) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: 'User information is not found',
+        },
+        HttpStatus.NOT_FOUND,
+      );
     }
     return user;
   }
