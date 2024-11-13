@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { FormModule } from './form/form.module';
 import { UsersModule } from './users/users.module';
 import { SportsServiceModule } from './sports-service/sports-service.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { SportsServiceModule } from './sports-service/sports-service.module';
     ),
     UsersModule,
     SportsServiceModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
