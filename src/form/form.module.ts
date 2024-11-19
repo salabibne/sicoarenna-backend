@@ -14,5 +14,6 @@ import { FormData, FormSchema } from './schemas/form.schema';
   ],
   controllers: [FormController],
   providers: [FormService],
+  exports: [FormService],
 })
 export class FormModule {}

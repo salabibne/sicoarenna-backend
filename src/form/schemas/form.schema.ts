@@ -27,6 +27,12 @@ export class FormData extends Document {
 
   @Prop({ required: true })
   pn: string;
+
+  @Prop({ required: true })
+  status: string;
+
+  @Prop({ required: true })
+  transactionId: string;
 }
 
 export const FormSchema = SchemaFactory.createForClass(FormData);

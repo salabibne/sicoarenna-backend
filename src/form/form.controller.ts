@@ -22,10 +22,10 @@ export class FormController {
     return this.formService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFormDto: UpdateFormDto) {
-    return this.formService.update(+id, updateFormDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateFormDto: UpdateFormDto) {
+  //   return this.formService.update(+id, updateFormDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {

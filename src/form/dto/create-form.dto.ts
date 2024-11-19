@@ -7,4 +7,6 @@ export class CreateFormDto {
   name: string;
   email: string;
   pn: string;
+  status: string;
+  transactionId: string;
 }

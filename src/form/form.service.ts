@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateFormDto } from './dto/create-form.dto';
 import { UpdateFormDto } from './dto/update-form.dto';
@@ -30,8 +30,13 @@ export class FormService {
     return `This action returns a #${id} form`;
   }
 
-  update(id: number, updateFormDto: UpdateFormDto) {
-    return `This action updates a #${id} form`;
+  async updateBookingStatus(transactionId: string, status: string) {
+    const form = await this.formModel.findOne({ transactionId });
+    if (!form) {
+      throw new HttpException('Form not found', HttpStatus.NOT_FOUND);
+    }
+    form.status = status;
+    await form.save();
   }
 
   remove(id: number) {
