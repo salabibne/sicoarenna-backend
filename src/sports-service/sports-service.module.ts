@@ -6,6 +6,7 @@ import {
   sportsService,
   sportsServiceSchema,
 } from './schemas/sportsService.schema';
+import { FormModule } from 'src/form/form.module';
 
 @Module({
   imports: [
@@ -15,7 +16,9 @@ import {
         schema: sportsServiceSchema,
       },
     ]),
+    FormModule,
   ],
+
   controllers: [SportsServiceController],
   providers: [SportsService],
 })

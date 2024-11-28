@@ -14,26 +14,34 @@ export class SportsServiceController {
 
   @Get()
   findAll() {
-    return this.sportsService.findAll();
+    return this.sportsService.findAllActive();
   }
 
-  @Get('id1/:id')
-  findOne(@Param('id') id: string) {
-    return this.sportsService.findOne(+id);
+  @Get('admin')
+  findAllSportsForAdmin() {
+    return this.sportsService.findAllSportsForAdmin();
   }
 
   // get the  sports service by name
-  @Get(':sport')
-  findBySports(@Param('sport') sport: string) {
-    return this.sportsService.findBySports(sport);
+  // @Get(':sport')
+  // findBySports(@Param('sport') sport: string) {
+  //   return this.sportsService.findBySports(sport);
+  // }
+  @Get(':sport/:year/:month/:day')
+  async findBySports(
+    @Param('sport') sport: string,
+    @Param('year') year: string,
+    @Param('month') month: string,
+    @Param('day') day: string,
+  ) {
+    const date = `${year}/${month}/${day}`; // Combine date parts
+    return this.sportsService.findBySports(sport, date);
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateSportsServiceDto: UpdateSportsServiceDto,
-  ) {
-    return this.sportsService.update(+id, updateSportsServiceDto);
+  @Patch('deactivate/:id')
+  update(@Param('id') id: string) {
+    // console.log(id);
+    return this.sportsService.updateDeactivateService(id);
   }
 
   @Delete(':id')

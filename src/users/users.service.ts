@@ -22,7 +22,7 @@ export class UsersService {
     return await user.save();
   }
 
-  async findAll(): Promise<User[]> {
+  async findAll() {
     return await this.userModel.find().exec();
   }
 

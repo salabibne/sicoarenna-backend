@@ -82,14 +82,18 @@ export class PaymentService {
         },
       );
 
-      console.log('responseFromThe_SSl', responseFromTheSSL.data);
+      // console.log('responseFromThe_SSl', responseFromTheSSL.data);
       return responseFromTheSSL.data.GatewayPageURL;
     } catch (error) {
-      console.log('error', error);
+      // console.log('error', error);
     }
   }
 
   async updateStatus(tranId: string, status: string) {
     await this.bookingService.updateBookingStatus(tranId, status);
   }
+
+  // async paymentAll() {
+  //   await this.
+  // }
 }

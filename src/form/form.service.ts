@@ -23,11 +23,15 @@ export class FormService {
   }
 
   async findAll(): Promise<FormData[]> {
-    return this.formModel.find().exec();
+    return this.formModel.find().sort({ _id: -1 }).exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} form`;
+  async findOneBooking({ sport, date, status }) {
+    return await this.formModel.findOne({
+      sportsCategory: sport,
+      date,
+      status,
+    });
   }
 
   async updateBookingStatus(transactionId: string, status: string) {
@@ -37,6 +41,16 @@ export class FormService {
     }
     form.status = status;
     await form.save();
+  }
+
+  async terminateBooking(id: string) {
+    const booking = await this.formModel.findById({ _id: id });
+
+    if (!booking) {
+      throw new HttpException('Booking not found', HttpStatus.NOT_FOUND);
+    }
+    booking.status = 'TERMINATED';
+    await booking.save();
   }
 
   remove(id: number) {

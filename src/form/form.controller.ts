@@ -17,15 +17,15 @@ export class FormController {
     return this.formService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.formService.findOne(+id);
-  }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateFormDto: UpdateFormDto) {
-  //   return this.formService.update(+id, updateFormDto);
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.formService.findOne(+id);
   // }
+
+  @Patch('terminate/:id')
+  update(@Param('id') id: string) {
+    return this.formService.terminateBooking(id);
+  }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
