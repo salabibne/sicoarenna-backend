@@ -53,6 +53,172 @@ export class FormService {
     await booking.save();
   }
 
+  async revenewAll() {
+    const booking = await this.formModel.find().sort({ date: -1 });
+    return booking
+      .filter((book) => book.status === 'VALID' || book.status === 'TERMINATED')
+      .map((entry) => ({
+        sportsCategory: entry.sportsCategory,
+        price: entry.person,
+        date: entry.date,
+      }));
+  }
+
+  async TodaysBookingCount() {
+    const booking = await this.formModel.find().sort({ date: -1 });
+    const todaysDate = new Date().toISOString().slice(0, 10).replace(/-/g, '/');
+    return booking.filter(
+      (book) =>
+        book.date === todaysDate &&
+        ['VALID', 'TERMINATED'].includes(book.status),
+    ).length;
+  }
+  async TodaysEarningCount() {
+    const booking = await this.formModel.find().sort({ date: -1 });
+    const todaysDate = new Date().toISOString().slice(0, 10).replace(/-/g, '/');
+
+    return booking
+      .filter(
+        (book) =>
+          book.date === todaysDate &&
+          ['VALID', 'TERMINATED'].includes(book.status),
+      )
+      .map((earning) => ({
+        price: earning.person.split('-')[1],
+      }));
+  }
+
+  async WeeklyEarning() {
+    const allBookings = await this.formModel.find().lean();
+    const bookings = allBookings.filter(
+      (book) => book.status === 'VALID' || book.status === 'TERMINATED',
+    );
+    const result = [];
+    const dayMap = {
+      0: 'Sunday',
+      1: 'Monday',
+      2: 'Tuesday',
+      3: 'Wednesday',
+      4: 'Thursday',
+      5: 'Friday',
+      6: 'Saturday',
+    };
+
+    const today = new Date();
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(today.getDate() - 6);
+
+    const weeklyEarnings = bookings.reduce((acc, book) => {
+      const bookingDate = new Date(book.date);
+
+      // Filter for bookings within the last 7 days
+      if (bookingDate >= sevenDaysAgo && bookingDate <= today) {
+        const getDayOfNumber = bookingDate.getDay();
+        const getDayName = dayMap[getDayOfNumber];
+        const price = parseInt(book.person.split('-')[1]);
+
+        // Add earnings for the corresponding day of the week
+        if (acc[getDayName]) {
+          acc[getDayName] += price;
+        } else {
+          acc[getDayName] = price;
+        }
+      }
+
+      return acc;
+    }, {});
+
+    const listWeeks = [weeklyEarnings];
+    console.log(listWeeks);
+    // Convert to the desired array format
+    // value ={ Friday: 10, Saturday: 60, Thursday: 20 }
+
+    function convert(value) {
+      // const result = [];
+      for (let i = 0; i < value.length; i++) {
+        for (const [k, v] of Object.entries(value[i])) {
+          const res = {
+            day: k,
+            earnings: v,
+          };
+          result.push(res);
+        }
+      }
+      console.log(result);
+    }
+
+    convert(listWeeks);
+
+    return result;
+  }
+
+
+  async weeklyBooking() {
+    const allBookings = await this.formModel.find().lean();
+    const bookings = allBookings.filter(
+      (book) => book.status === 'VALID' || book.status === 'TERMINATED',
+    );
+
+    const dayMap = {
+      0: 'Sunday',
+      1: 'Monday',
+      2: 'Tuesday',
+      3: 'Wednesday',
+      4: 'Thursday',
+      5: 'Friday',
+      6: 'Saturday',
+    };
+  let result = [];
+    const today = new Date();
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(today.getDate() - 6);
+
+    const weeklyBookings = bookings.reduce((acc, book) => {
+      const bookingDate = new Date(book.date);
+
+      
+      if (bookingDate >= sevenDaysAgo && bookingDate <= today) {
+        const getDayOfNumber = bookingDate.getDay();
+        const getDayName = dayMap[getDayOfNumber];
+        
+        // Add earnings for the corresponding day of the week
+        if (acc[getDayName]) {
+          acc[getDayName] += 1;
+        } else {
+          acc[getDayName] = 1;
+        }
+      }
+
+      return acc;
+    }, {});
+
+    const listWeeks = [weeklyBookings];
+    // console.log(listWeeks);
+    // Convert to the desired array format
+    // value ={ Friday: 10, Saturday: 60, Thursday: 20 }
+
+    function convert(value) {
+    
+      for (let i = 0; i < value.length; i++) {
+        for (const [k, v] of Object.entries(value[i])) {
+          // let res = ` {day:${k}: booking : ${v}}`;
+          let res = {
+            day: k,
+            bookings: v,
+          };
+          result.push(res);
+        }
+      }
+      // console.log(result);
+    }
+
+    convert(listWeeks);
+    return result;
+
+
+
+  }
+
   remove(id: number) {
     return `This action removes a #${id} form`;
   }

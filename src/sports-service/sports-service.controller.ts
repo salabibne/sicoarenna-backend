@@ -38,6 +38,10 @@ export class SportsServiceController {
     return this.sportsService.findBySports(sport, date);
   }
 
+  @Get('live')
+  getLiveSports() {
+    return this.sportsService.LiveService();
+  }
   @Patch('deactivate/:id')
   update(@Param('id') id: string) {
     // console.log(id);

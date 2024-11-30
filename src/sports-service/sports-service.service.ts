@@ -103,6 +103,11 @@ export class SportsService {
     await allService.save();
   }
 
+  async LiveService() {
+    const allService = await this.sportsModel.find();
+    return allService.filter((live) => live.status[0] === 'Active').length;
+  }
+
   remove(id: number) {
     return `This action removes a #${id} sportsService`;
   }

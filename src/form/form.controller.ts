@@ -16,11 +16,30 @@ export class FormController {
   findAll() {
     return this.formService.findAll();
   }
+  @Get('revenue')
+  getRevenue() {
+    return this.formService.revenewAll();
+  }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.formService.findOne(+id);
-  // }
+  @Get('bookingCount')
+  getBookingCount() {
+    return this.formService.TodaysBookingCount();
+  }
+
+  @Get('earningCount')
+  getEarningCount() {
+    return this.formService.TodaysEarningCount();
+  }
+
+  @Get('weeklyIncome')
+  getWeeklyIncome() {
+    return this.formService.WeeklyEarning();
+  }
+
+  @Get('weeklyBooking')
+  getWeeklyBooking() {
+    return this.formService.weeklyBooking();
+  }
 
   @Patch('terminate/:id')
   update(@Param('id') id: string) {
