@@ -42,6 +42,10 @@ export class SportsServiceController {
   getLiveSports() {
     return this.sportsService.LiveService();
   }
+  @Get('active')
+  getActiveSports() {
+    return this.sportsService.ActiveServiceCustomer();
+  }
   @Patch('deactivate/:id')
   update(@Param('id') id: string) {
     // console.log(id);

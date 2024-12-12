@@ -72,13 +72,22 @@ export class SportsService {
     // const bookedPlace = bookedSlots?.place;
 
     // Showing the available slots:
+    // const avaialbleSportsData = sportsDetails.map((sport) => {
+    //   const availableTimes = sport.time.filter(
+    //     (time) => time !== bookedSlots.time,
+    //   );
+    //   const availablePlace = sport.place.filter(
+    //     (place) => place !== bookedSlots.place,
+    //   );
     const avaialbleSportsData = sportsDetails.map((sport) => {
-      const availableTimes = sport.time.filter(
-        (time) => time !== bookedSlots.time,
-      );
-      const availablePlace = sport.place.filter(
-        (place) => place !== bookedSlots.place,
-      );
+  const availableTimes = sport.time.filter(
+    (time) => !bookedSlots.some((slot) => slot.time === time)
+  );
+
+  const availablePlace = sport.place.filter(
+    (place) => !bookedSlots.some((slot) => slot.place === place)
+  );
+
       return {
         ...sport,
         time: availableTimes,
@@ -106,6 +115,10 @@ export class SportsService {
   async LiveService() {
     const allService = await this.sportsModel.find();
     return allService.filter((live) => live.status[0] === 'Active').length;
+  }
+  async ActiveServiceCustomer() {
+    const allService = await this.sportsModel.find();
+    return allService.filter((live) => live.status[0] === 'Active');
   }
 
   remove(id: number) {

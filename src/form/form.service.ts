@@ -4,6 +4,7 @@ import { CreateFormDto } from './dto/create-form.dto';
 import { UpdateFormDto } from './dto/update-form.dto';
 import { FormData } from './schemas/form.schema';
 import { Model } from 'mongoose';
+import { CLIENT_RENEG_LIMIT } from 'tls';
 @Injectable()
 export class FormService {
   // private submitFormDatas=[]
@@ -27,7 +28,7 @@ export class FormService {
   }
 
   async findOneBooking({ sport, date, status }) {
-    return await this.formModel.findOne({
+    return await this.formModel.find({
       sportsCategory: sport,
       date,
       status,
@@ -152,7 +153,6 @@ export class FormService {
     return result;
   }
 
-
   async weeklyBooking() {
     const allBookings = await this.formModel.find().lean();
     const bookings = allBookings.filter(
@@ -168,7 +168,7 @@ export class FormService {
       5: 'Friday',
       6: 'Saturday',
     };
-  let result = [];
+    const result = [];
     const today = new Date();
     const sevenDaysAgo = new Date();
     sevenDaysAgo.setDate(today.getDate() - 6);
@@ -176,11 +176,10 @@ export class FormService {
     const weeklyBookings = bookings.reduce((acc, book) => {
       const bookingDate = new Date(book.date);
 
-      
       if (bookingDate >= sevenDaysAgo && bookingDate <= today) {
         const getDayOfNumber = bookingDate.getDay();
         const getDayName = dayMap[getDayOfNumber];
-        
+
         // Add earnings for the corresponding day of the week
         if (acc[getDayName]) {
           acc[getDayName] += 1;
@@ -198,11 +197,10 @@ export class FormService {
     // value ={ Friday: 10, Saturday: 60, Thursday: 20 }
 
     function convert(value) {
-    
       for (let i = 0; i < value.length; i++) {
         for (const [k, v] of Object.entries(value[i])) {
           // let res = ` {day:${k}: booking : ${v}}`;
-          let res = {
+          const res = {
             day: k,
             bookings: v,
           };
@@ -214,11 +212,16 @@ export class FormService {
 
     convert(listWeeks);
     return result;
-
-
-
   }
 
+  // specific person booking data fetch
+  async personOfBooking(email: string) {
+    const bookings = await this.formModel.find({ email }).sort({ _id: -1 });
+    if (!bookings) {
+      throw new HttpException('Booking not found', HttpStatus.NOT_FOUND);
+    }
+    return bookings;
+  }
   remove(id: number) {
     return `This action removes a #${id} form`;
   }

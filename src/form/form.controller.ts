@@ -41,6 +41,11 @@ export class FormController {
     return this.formService.weeklyBooking();
   }
 
+  @Get('personBooking/:email')
+  findOne(@Param('email') email: string) {
+    return this.formService.personOfBooking(email);
+  }
+
   @Patch('terminate/:id')
   update(@Param('id') id: string) {
     return this.formService.terminateBooking(id);
