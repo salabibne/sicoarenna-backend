@@ -14,8 +14,10 @@ import { AnnouncementModule } from './announcement/announcement.module';
     UsersModule,
     FormModule,
     MongooseModule.forRoot(
-      // 'mongodb+srv://sicoarena:Qy1J6M1j42RRV0TF@cluster0.ovwhpk1.mongodb.net/sicoarena',
-      'mongodb+srv://sicoarena:16MhXpiIOW5LMoKr@cluster0.ovwhpk1.mongodb.net/sicoarena',
+      
+      // 'mongodb+srv://sicoarena:16MhXpiIOW5LMoKr@cluster0.ovwhpk1.mongodb.net/sicoarena',
+      'mongodb+srv://sicoarena:hwHQxxwMRF5y1Hin@cluster0.8smdi.mongodb.net/sicoarena',
+
     ),
     UsersModule,
     SportsServiceModule,
