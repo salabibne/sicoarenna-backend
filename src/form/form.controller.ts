@@ -46,6 +46,11 @@ export class FormController {
     return this.formService.personOfBooking(email);
   }
 
+  @Get('personBookingBasedOnTransactionId/:transactionId')
+  findOneBasedOnTransactionId(@Param('transactionId') transactionId: string) {
+    return this.formService.personOfBookingBasedOnTransactionId(transactionId);
+  }
+
   @Patch('terminate/:id')
   update(@Param('id') id: string) {
     return this.formService.terminateBooking(id);

@@ -37,7 +37,8 @@ export class PaymentController {
     if (status === "VALID") {
       await this.paymentService.updateStatus(tran_id, status);
 
-      return res.redirect('http://localhost:5173/payment/success');
+      // return res.redirect('http://localhost:5173/payment/success');
+      return res.redirect(`http://localhost:5173/payment/success?tran_id=${tran_id}`)
       
     }
     else {

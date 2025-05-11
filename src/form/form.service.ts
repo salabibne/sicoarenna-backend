@@ -222,6 +222,15 @@ export class FormService {
     }
     return bookings;
   }
+
+  // specific person bookking based on transaction id
+  async personOfBookingBasedOnTransactionId(transactionId: string) {
+    const bookings = await this.formModel.findOne({ transactionId });
+    if (!bookings) {
+      throw new HttpException('Booking not found', HttpStatus.NOT_FOUND);
+    }
+    return bookings;
+  }
   remove(id: number) {
     return `This action removes a #${id} form`;
   }
