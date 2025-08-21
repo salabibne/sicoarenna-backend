@@ -22,9 +22,9 @@ export class PaymentService {
   public shippingMethod = 'No';
   public product_category = 'BookingTicket';
   public product_profile = 'general';
-  public successUrl = 'http://localhost:3000/payment/success';
-  public failUrl = 'http://localhost:3000/payment/fail';
-  public cancelUrl = 'http://localhost:3000/payment/cancel';
+  public successUrl = 'https://sicoarenna-backend.onrender.com/payment/success';
+  public failUrl = 'https://sicoarenna-backend.onrender.com/payment/fail';
+  public cancelUrl = 'https://sicoarenna-backend.onrender.com/payment/cancel';
   FormService: any;
 
   async createInitiatePayment(
