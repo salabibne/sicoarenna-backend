@@ -37,12 +37,12 @@ export class PaymentController {
     if (status === "VALID") {
       await this.paymentService.updateStatus(tran_id, status);
 
-      // return res.redirect('http://localhost:5173/payment/success');
-      return res.redirect(`http://localhost:5173/payment/success?tran_id=${tran_id}`)
+      // return res.redirect('https://sicoarena.onrender.com/payment/success');
+      return res.redirect(`https://sicoarena.onrender.com/payment/success?tran_id=${tran_id}`)
       
     }
     else {
-      return res.redirect('http://localhost:5173/payment/failure')
+      return res.redirect('https://sicoarena.onrender.com/payment/failure')
     }
   }
 
@@ -54,7 +54,7 @@ export class PaymentController {
     if (status === 'FAILED') {
       await this.paymentService.updateStatus(tran_id, status);
 
-      return res.redirect('http://localhost:5173/payment/fail');
+      return res.redirect('https://sicoarena.onrender.com/payment/fail');
     }
   }
   @Post('cancel')
@@ -64,7 +64,7 @@ export class PaymentController {
     if (status === 'CANCELLED') {
       await this.paymentService.updateStatus(tran_id, status);
 
-      return res.redirect('http://localhost:5173/payment/cancel');
+      return res.redirect('https://sicoarena.onrender.com/payment/cancel');
     }
   }
 }
